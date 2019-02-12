@@ -1,6 +1,6 @@
 <template>
     <div class="Board">
-        <table style="width:30%">
+        <table>
             <tr>
                 <th><Die></Die></th>
                 <th><Die></Die></th> 
@@ -8,21 +8,21 @@
                 <th><Die></Die></th>
             </tr>
             <tr>
-                <td><Die></Die></td>
-                <td><Die></Die></td> 
-                <td><Die></Die></td>
+                <th><Die></Die></th>
+                <th><Die></Die></th> 
+                <th><Die></Die></th>
                 <th><Die></Die></th>
             </tr>
             <tr>
-                <td><Die></Die></td>
-                <td><Die></Die></td> 
-                <td><Die></Die></td>
+                <th><Die></Die></th>
+                <th><Die></Die></th> 
+                <th><Die></Die></th>
                 <th><Die></Die></th>
             </tr>
             <tr>
-                <td><Die></Die></td>
-                <td><Die></Die></td> 
-                <td><Die></Die></td>
+                <th><Die></Die></th>
+                <th><Die></Die></th> 
+                <th><Die></Die></th>
                 <th><Die></Die></th>
             </tr>
         </table>
@@ -31,7 +31,8 @@
 
 <style>
     Table{
-        width: 30%;
+        border-spacing: 0.7vw;
+        box-shadow: 7px 7px 16px grey;
     }
 </style>
 
