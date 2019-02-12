@@ -1,17 +1,18 @@
 <template>
-  <div class="die">
+  <div class="Die">
       {{char}}
   </div>
 </template>
 
 <style lang="scss">
-.die {
-  width: 50px;
-  height: 50px;
-  border: 5px solid lightslategray;
+.Die {
+  width: 100%;
+  padding-top: 100%;
+  vertical-align: middle;
+  color: white;
+  background-color: lightslategray;
   text-align: center;
-  padding: 5px;
-  margin: 5px;
+  border: 5px solid white;
 }
 </style>
 
@@ -20,7 +21,7 @@
     name: "Die",
     data() {
       return {
-        char: "a",
+        char: "A",
       };
     },
   }

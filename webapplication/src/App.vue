@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <die>
-      </die>
+      <Board></Board>
     </div>
     <router-view/>
   </div>
@@ -29,11 +28,14 @@
 </style>
 
 <script>
+  import { mapGetters, mapMutations } from 'vuex' 
+  import Board from "@/components/Board.vue";
   import Die from "@/components/Die.vue";
 
   export default {
     components: {
-      Die
+      Die,
+      Board,
     }
   }
 </script>
