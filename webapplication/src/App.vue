@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <div id="nav">
-      <Game></Game>
     </div>
     <router-view/>
   </div>
@@ -15,8 +14,13 @@
   text-align: center;
   color: #2c3e50;
 }
+html {
+  overflow: hidden;
+}
+
 #nav {
   padding: 30px;
+  position: absolute;
   a {
     font-weight: bold;
     color: #2c3e50;
