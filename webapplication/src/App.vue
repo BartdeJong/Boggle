@@ -1,14 +1,13 @@
 <template>
   <div id="app">
-    <div id="nav">
-    </div>
+    <div id="nav"></div>
     <router-view/>
   </div>
 </template>
 
 <style lang="scss">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -32,16 +31,16 @@ html {
 </style>
 
 <script>
-  import { mapGetters, mapMutations } from 'vuex' 
-  import Board from "@/components/Board.vue";
-  import Die from "@/components/Die.vue";
-  import Game from "@/views/Game.vue";
+import { mapGetters, mapMutations } from "vuex";
+import Board from "@/components/Board.vue";
+import Die from "@/components/Die.vue";
+import Game from "@/views/Game.vue";
 
-  export default {
-    components: {
-      Die,
-      Board,
-      Game,
-    }
+export default {
+  components: {
+    Die,
+    Board,
+    Game
   }
+};
 </script>

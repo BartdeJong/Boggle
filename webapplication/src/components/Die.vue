@@ -1,14 +1,12 @@
 <template>
-  <div 
-  @click="(selected) ? Remove() : Add()"
-  @mouseover="(selected) ? Remove() : Add()"
-  class="Die"
-  :style="{
-    backgroundColor: (selected) ? 'red' : '#3b7dbe',
+  <div
+    @click="($store.getters.getDieSelected[dieNumber]) ? Remove() : Add()"
+    @resetDie="Remove()"
+    class="Die"
+    :style="{
+    backgroundColor: ($store.getters.getDieSelected[dieNumber]) ? 'red' : '#3b7dbe',
   }"
-  >
-  {{char}}
-  </div>
+  >{{char}}{{dieNumber}}</div>
 </template>
 
 <style lang="scss">
@@ -38,30 +36,42 @@
 </style>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "Die",
   data() {
     return {
       char: "",
       selected: false,
+      dieNumber: 0,
     };
   },
   methods: {
-    Add(){
-      // this.$emit('hover');
-      this.$emit('add', this.char);
-      this.selected = !this.selected;
+    Add() {
+      if (
+        this.$store.getters.getAdjacencyList[this.dieNumber].includes(
+          this.$store.getters.getLastSelected
+        ) ||
+        this.$store.getters.getLastSelected == -1
+      ) {
+        this.$store.commit("AddLetter", this.char);
+        this.$store.commit("ChangeDieSelected", this.dieNumber);
+        this.$store.commit("ChangeLastSelected", this.dieNumber);
+      }
     },
-    Remove(){
-      this.$emit('remove', this.char);
-      this.selected = !this.selected;
+    Remove() {
+      this.$store.commit("RemoveLetter", this.char);
+      this.$store.commit("ChangeDieSelected", this.dieNumber);
     },
-    Random(){
-      this.char = String.fromCharCode(Math.floor(Math.random() * 26) + 97)
-    }
+    Random() {
+      this.char = String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+    },
   },
-  created(){
+  created() {
     this.Random();
+    this.dieNumber = this.$store.getters.getCreateDieNumber;
+    this.$store.commit("CreateDie");
   }
 };
 </script>

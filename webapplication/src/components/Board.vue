@@ -1,13 +1,6 @@
 <template>
   <div class="Board">
-    <die 
-    v-for="i in 16" 
-    :key="i" 
-    class="die"
-    @hover="HoverWord()"
-    @add="AddLetter"
-    @remove="RemoveLetter"
-    ></die>
+    <die v-for="i in 16" :key="i" class="die" @hover="HoverWord()"></die>
   </div>
 </template>
 
@@ -33,25 +26,12 @@ export default {
   name: "Board",
   data() {
     return {
-      Size: 4,
-      Word: "",
+      Size: 4
     };
   },
   components: {
     Die
   },
-  methods: {
-      AddLetter(letter){
-          this.Word += letter;
-          console.log(this.Word);
-      },
-      RemoveLetter(letter){
-          this.Word = this.Word.replace(letter, "");
-          console.log(this.Word);
-      },
-      HoverWord(){
-          console.log("now following mouse");
-      }
-  }
+  methods: {}
 };
 </script>
