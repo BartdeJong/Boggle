@@ -24,7 +24,7 @@
   align-items: center;
   flex-wrap: nowrap;
   flex-direction: column;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   float: left;
 }
@@ -70,12 +70,19 @@
 
 @media only screen and (max-width: 500px) {
   .field {
-    width: 100%;
-    height: 60vh;
+    height: 50vh;
   }
   .words {
     width: 100%;
-    height: 30vh;
+    .valueIdentifier {
+      margin-top: 0vh;
+    }
+  }
+  .game {
+    flex-direction: column
+  }
+  .submit {
+    margin-top: 0.5vh;
   }
 }
 </style>

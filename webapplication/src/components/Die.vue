@@ -6,7 +6,7 @@
     :style="{
     backgroundColor: ($store.getters.getDieSelected[dieNumber]) ? 'red' : '#3b7dbe',
   }"
-  >{{char}}{{dieNumber}}</div>
+  >{{char}}</div>
 </template>
 
 <style lang="scss">
@@ -27,9 +27,6 @@
 
 @media only screen and (max-width: 500px) {
   .Die {
-    width: 65px;
-    height: 65px;
-    line-height: 65px;
     font-size: 20pt;
   }
 }

@@ -16,6 +16,13 @@ table {
   flex-wrap: wrap;
   box-shadow: -10px 20px 71px 3px;
 }
+
+@media only screen and (max-width: 500px) {
+  .Board {
+    width: 250px;
+    height: 250px;
+  }
+}
 </style>
 
 <script>
