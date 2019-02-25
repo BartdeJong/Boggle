@@ -47,10 +47,21 @@ export default new Vuex.Store({
       state.lastSelected = -1;
     },
     SubmitWord(state) {
-      state.score += state.word.length;
-
+      let length = state.word.length;
+      const Http = new XMLHttpRequest();
+      Http.open('GET', "http://192.168.178.20:3000/"/* + state.word */, true);
+      Http.send();
+      Http.onreadystatechange=function(){
+        if(this.readyState==4 && this.status==200){
+          var response = JSON.parse(Http.responseText);
+          if(response.isWord){
+            state.score += length;
+          }
+        }
+      }
       state.lastSelected = -1;
       state.word = "";
+      state.dieSelected = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
     },
     ResetWord(state) {
       state.lastSelected = -1;
@@ -92,7 +103,7 @@ export default new Vuex.Store({
     getDieSelected: state => {
       return state.dieSelected;
     },
-    IsSelected: state => (dieNumber: any) => {
+    IsSelected: state => (dieNumber: number) => {
       return state.dieSelected[dieNumber]
     }
   }

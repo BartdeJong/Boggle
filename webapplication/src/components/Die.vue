@@ -4,9 +4,9 @@
     @resetDie="Remove()"
     class="Die"
     :style="{
-    backgroundColor: (IsSelected(dieNumber) ? 'red' : '#3b7dbe'),
-  }"
-  >{{char}}{{IsSelected(dieNumber)}}</div>
+        backgroundColor: (IsSelected(dieNumber)) ? 'red' : '#3b7dbe'
+      }"
+  >{{char}}   {{(IsSelected(dieNumber))}}</div>
 </template>
 
 <style lang="scss">
@@ -38,13 +38,19 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "Die",
   computed: {
-    ...mapGetters(['IsSelected']),
+    ...mapGetters(["IsSelected", "getDieSelected"]),
+    changeDieColor(){
+      return{
+        //backgroundColor: this.IsSelected(this.dieNumber) ? 'red' : '#3b7dbe'
+        backgroundColor: this.getDieSelected[this.dieNumber] ? 'red' : '#3b7dbe'
+      }
+    }
   },
   data() {
     return {
       char: "",
       selected: false,
-      dieNumber: 0,
+      dieNumber: 0
     };
   },
   methods: {
@@ -72,6 +78,6 @@ export default {
     this.Random();
     this.dieNumber = this.$store.getters.getCreateDieNumber;
     this.$store.commit("CreateDie");
-  },
+  }
 };
 </script>
