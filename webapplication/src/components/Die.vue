@@ -1,12 +1,12 @@
 <template>
   <div
-    @click="($store.getters.getDieSelected[dieNumber]) ? Remove() : Add()"
+    @click="(IsSelected(dieNumber)) ? Remove() : Add()"
     @resetDie="Remove()"
     class="Die"
     :style="{
-    backgroundColor: ($store.getters.getDieSelected[dieNumber]) ? 'red' : '#3b7dbe',
+    backgroundColor: (IsSelected(dieNumber) ? 'red' : '#3b7dbe'),
   }"
-  >{{char}}</div>
+  >{{char}}{{IsSelected(dieNumber)}}</div>
 </template>
 
 <style lang="scss">
@@ -17,7 +17,7 @@
   color: white;
   justify-content: center;
   align-items: center;
-  font-size: 40pt;
+  font-size: 20pt;
   transition-duration: 0.5s;
 }
 
@@ -37,6 +37,9 @@ import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "Die",
+  computed: {
+    ...mapGetters(['IsSelected']),
+  },
   data() {
     return {
       char: "",
@@ -63,12 +66,12 @@ export default {
     },
     Random() {
       this.char = String.fromCharCode(Math.floor(Math.random() * 26) + 97);
-    },
+    }
   },
   created() {
     this.Random();
     this.dieNumber = this.$store.getters.getCreateDieNumber;
     this.$store.commit("CreateDie");
-  }
+  },
 };
 </script>

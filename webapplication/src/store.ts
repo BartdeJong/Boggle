@@ -59,8 +59,15 @@ export default new Vuex.Store({
     ChangeLastSelected(state, dieNumber) {
       state.lastSelected = dieNumber;
     },
+    DieSelectedTrue(state, dieNumber) {
+      state.dieSelected[dieNumber] = true;
+    },
+    DieSelectedFalse(state, dieNumber) {
+      state.dieSelected[dieNumber] = false;
+    },
     ChangeDieSelected(state, dieNumber) {
       state.dieSelected[dieNumber] = !state.dieSelected[dieNumber];
+      console.log(state.dieSelected);
     }
   },
   actions: {
@@ -84,6 +91,9 @@ export default new Vuex.Store({
     },
     getDieSelected: state => {
       return state.dieSelected;
+    },
+    IsSelected: state => (dieNumber: any) => {
+      return state.dieSelected[dieNumber]
     }
   }
 })
