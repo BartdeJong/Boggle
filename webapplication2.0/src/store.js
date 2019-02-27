@@ -28,7 +28,26 @@ export default new Vuex.Store({
       [8, 9, 10, 12, 14],
       [9, 10, 11, 13, 15],
       [10, 11, 14]
-    ]
+    ],
+    letterDistributionLittle: [
+      ["A", "A", "E", "E", "G", "N"],
+      ["E", "L", "R", "T", "T", "R"],
+      ["A", "O", "O", "T", "T", "W"],
+      ["A", "B", "B", "J", "O", "O"],
+      ["E", "H", "R", "T", "V", "N"],
+      ["C", "I", "M", "O", "T", "U"],
+      ["D", "I", "S", "T", "T", "R"],
+      ["E", "I", "O", "S", "S", "T"],
+      ["D", "E", "L", "R", "N", "Y"],
+      ["A", "L", "N", "O", "P", "S"],
+      ["H", "I", "M", "N", "Q", "U"],
+      ["E", "E", "I", "N", "S", "U"],
+      ["E", "E", "G", "N", "N", "W"],
+      ["A", "F", "F", "K", "P", "S"],
+      ["H", "L", "N", "N", "R", "Z"],
+      ["D", "E", "I", "L", "R", "X"]
+    ],
+    wordScores: [0, 0, 0, 1, 1, 2, 3, 4, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11],
   },
   mutations: {
     AddLetter(state, letter) {
@@ -56,24 +75,24 @@ export default new Vuex.Store({
     },
     SubmitWord(state) {
       let length = state.word.length;
-      let word = state.word;
+      let word = state.word.toLowerCase();
       const Http = new XMLHttpRequest();
-      Http.open('GET', "http://217.120.19.8:3000/" + state.word , true);
+      Http.open('GET', "http://217.120.19.8:3000/" + word, true);
       Http.send();
       Http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
           let response = JSON.parse(Http.responseText);
           let inList = false;
-          for (let i = 0; i < state.savedWords.length; i++){
-            if(state.savedWords[i].word == word){
+          for (let i = 0; i < state.savedWords.length; i++) {
+            if (state.savedWords[i].word == word) {
               inList = true;
             }
           }
           if (response.isWord && !inList) {
-            state.score += length;
+            state.score += state.wordScores[length];
           }
-          if(!inList){
-            state.savedWords.push({ word: word, correct: response.isWord })
+          if(!inList && length > 3){
+            state.savedWords.push({ word: word, correct: response.isWord });
           }
         }
       }
@@ -116,6 +135,9 @@ export default new Vuex.Store({
     },
     getSavedWords: state => {
       return state.savedWords;
+    },
+    getLetterDistributionLittle: state => {
+      return state.letterDistributionLittle;
     },
   }
 })

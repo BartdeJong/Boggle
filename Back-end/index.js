@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/:word', (req, res) => {
-  if(dutchDictionary.includes(req.params.word) && req.params.word.length > 1){
+  if(dutchDictionary.includes(req.params.word) && req.params.word.length > 3){
     res.send({ isWord: true });
   }
   else{

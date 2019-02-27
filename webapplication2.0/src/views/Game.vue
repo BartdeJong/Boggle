@@ -3,7 +3,14 @@
     <div class="game">
       <div class="field">
         <Board></Board>
-        <div @click="this.submit" class="submit">Submit</div>
+        <div 
+          @click="this.submit" 
+          class="submit" 
+          :style="{ 
+            backgroundColor: (getWord.length > 3) ? 'rgb(16, 133, 179)' : 'red',
+            transform: (getWord.length > 3) ? '' : 'scale(1)'
+          }"
+        >Submit</div>
       </div>
       <div class="info">
         <div class="words score">
@@ -135,7 +142,7 @@ Vue.use(fullscreen);
 export default {
   name: "Game",
   computed: {
-    ...mapGetters(["getSavedWords"]),
+    ...mapGetters(["getSavedWords", "getWord"]),
     getListSize: function() {
       if (screen.width > 800) {
         return 20;
@@ -157,8 +164,10 @@ export default {
   },
   methods: {
     submit() {
-      this.$store.commit("SubmitWord");
-      this.$emit("resetDie");
+      if(this.getWord.length > 3){
+        this.$store.commit("SubmitWord");
+        this.$emit("resetDie");
+      }
     },
     toggle() {
       this.fullscreen = !this.fullscreen;

@@ -38,7 +38,7 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "Die",
   computed: {
-    ...mapGetters(["IsSelected", "IsLastSelected", "getAdjacencyList", "getLastSelected"]),
+    ...mapGetters(["IsSelected", "IsLastSelected", "getAdjacencyList", "getLastSelected", "getLetterDistributionLittle", "getWord"]),
   },
   data() {
     return {
@@ -66,12 +66,13 @@ export default {
       }
     },
     Random() {
-      this.char = String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+      // this.char = String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+      this.char = this.getLetterDistributionLittle[this.dieNumber][Math.floor(Math.random() * 6)];
     }
   },
   created() {
-    this.Random();
     this.dieNumber = this.$store.getters.getCreateDieNumber;
+    this.Random();
     this.$store.commit("CreateDie");
   }
 };
