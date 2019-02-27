@@ -1,16 +1,33 @@
 <template>
-  <div class="game">
-    <div class="field">
-      <Board></Board>
-      <div @click="this.submit" class="submit">Submit</div>
+  <fullscreen :fullscreen.sync="fullscreen">
+    <div class="game">
+      <div class="field">
+        <Board></Board>
+        <div @click="this.submit" class="submit">Submit</div>
+      </div>
+      <div class="info">
+        <div class="words score">
+          <div class="valueIdentifier">Score:</div>
+          <div class="value">{{ this.$store.getters.getScore }}</div>
+          <div class="valueIdentifier">Current word:</div>
+          <div class="value">{{ this.$store.getters.getWord }}</div>
+          <button type="submit" @click="toggle">Fullscreen</button>
+        </div>
+        <div class="words guessed">
+          <div class="valueIdentifier">Guessed words:</div>
+          <div class="value">
+            <div v-for="i in Math.min(this.getSavedWords.length, this.getListSize)" :key="i">
+              <div
+                :style="{
+                color: (getSavedWords[i-1].correct) ? '#3eb72c' : 'red'
+              }"
+              >{{getSavedWords[i-1].word}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="words">
-      <div class="valueIdentifier">Score:</div>
-      <div class="value">{{ this.$store.getters.getScore }}</div>
-      <div class="valueIdentifier">Current word:</div>
-      <div class="value">{{ this.$store.getters.getWord }}</div>
-    </div>
-  </div>
+  </fullscreen>
 </template>
 
 <style lang="scss">
@@ -28,13 +45,23 @@
   height: 100vh;
   float: left;
 }
-.words {
+.info {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 40%;
+}
+.score {
+  height: 28vh;
+  justify-content: center;
+}
+.guessed {
+  height: 72vh;
+}
+.words {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   float: right;
-  height: calc(100vh - 500px);
   font-size: 20pt;
   align-items: center;
   .valueIdentifier {
@@ -72,17 +99,27 @@
   .field {
     height: 50vh;
   }
+  .submit {
+    box-shadow: none;
+  }
   .words {
-    width: 100%;
+    width: 50%;
+    justify-content: start;
+    font-size: 13pt;
+    height: 40vh;
+    padding-top: 6px;
     .valueIdentifier {
       margin-top: 0vh;
     }
   }
   .game {
-    flex-direction: column
+    flex-direction: column;
   }
   .submit {
     margin-top: 0.5vh;
+  }
+  .info {
+    flex-direction: row;
   }
 }
 </style>
@@ -91,12 +128,27 @@
 import { mapGetters, mapMutations } from "vuex";
 import Die from "@/components/Die.vue";
 import Board from "@/components/Board.vue";
+import fullscreen from "vue-fullscreen";
+import Vue from "vue";
+Vue.use(fullscreen);
 
 export default {
   name: "Game",
+  computed: {
+    ...mapGetters(["getSavedWords"]),
+    getListSize: function() {
+      if (screen.width > 800) {
+        return 20;
+      } else {
+        return 10;
+      }
+    }
+  },
   data() {
     return {
-      Size: 4
+      Size: 4,
+      listSize: 0,
+      fullscreen: false
     };
   },
   components: {
@@ -107,6 +159,9 @@ export default {
     submit() {
       this.$store.commit("SubmitWord");
       this.$emit("resetDie");
+    },
+    toggle() {
+      this.fullscreen = !this.fullscreen;
     }
   }
 };

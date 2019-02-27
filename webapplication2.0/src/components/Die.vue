@@ -6,7 +6,7 @@
     :style="{
         backgroundColor: (IsSelected(dieNumber)) ? 'red' : '#3b7dbe'
       }"
-  >{{char}}   {{(IsSelected(dieNumber))}}</div>
+  >{{char}}</div>
 </template>
 
 <style lang="scss">
@@ -38,13 +38,7 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "Die",
   computed: {
-    ...mapGetters(["IsSelected", "getDieSelected"]),
-    changeDieColor(){
-      return{
-        //backgroundColor: this.IsSelected(this.dieNumber) ? 'red' : '#3b7dbe'
-        backgroundColor: this.getDieSelected[this.dieNumber] ? 'red' : '#3b7dbe'
-      }
-    }
+    ...mapGetters(["IsSelected", "IsLastSelected", "getAdjacencyList", "getLastSelected"]),
   },
   data() {
     return {
@@ -56,19 +50,20 @@ export default {
   methods: {
     Add() {
       if (
-        this.$store.getters.getAdjacencyList[this.dieNumber].includes(
-          this.$store.getters.getLastSelected
+        this.getAdjacencyList[this.dieNumber].includes(
+          this.getLastSelected
         ) ||
-        this.$store.getters.getLastSelected == -1
+        this.getLastSelected == -1
       ) {
         this.$store.commit("AddLetter", this.char);
-        this.$store.commit("ChangeDieSelected", this.dieNumber);
+        this.$store.commit("AddSelectedDie", this.dieNumber);
         this.$store.commit("ChangeLastSelected", this.dieNumber);
       }
     },
     Remove() {
-      this.$store.commit("RemoveLetter", this.char);
-      this.$store.commit("ChangeDieSelected", this.dieNumber);
+      if(this.IsLastSelected(this.dieNumber)){
+        this.$store.commit("RemoveLetter");
+      }
     },
     Random() {
       this.char = String.fromCharCode(Math.floor(Math.random() * 26) + 97);

@@ -10,7 +10,7 @@ export default new Vuex.Store({
     word: "",
     savedWords: [],
     lastSelected: -1,
-    dieSelected: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    selectedDice: [],
     adjacencyList: [
       [1, 4, 5],
       [0, 2, 4, 5, 6],
@@ -33,11 +33,19 @@ export default new Vuex.Store({
   mutations: {
     AddLetter(state, letter) {
       state.word += letter;
-      console.log(state.word);
     },
-    RemoveLetter(state, letter) {
-      state.word = state.word.replace(letter, "");
-      console.log(state.word);
+    AddSelectedDie(state, dieNumber) {
+      state.selectedDice.push(dieNumber);
+    },
+    RemoveLetter(state) {
+      state.word = state.word.slice(0, -1);
+      state.selectedDice.pop();
+      if (state.selectedDice.length > 0) {
+        state.lastSelected = state.selectedDice[state.selectedDice.length - 1];
+      }
+      else {
+        state.lastSelected = -1;
+      }
     },
     CreateDie(state) {
       state.createDieNumber++;
@@ -48,20 +56,30 @@ export default new Vuex.Store({
     },
     SubmitWord(state) {
       let length = state.word.length;
+      let word = state.word;
       const Http = new XMLHttpRequest();
-      Http.open('GET', "http://192.168.178.20:3000/"/* + state.word */, true);
+      Http.open('GET', "http://217.120.19.8:3000/" + state.word , true);
       Http.send();
-      Http.onreadystatechange=function(){
-        if(this.readyState==4 && this.status==200){
-          var response = JSON.parse(Http.responseText);
-          if(response.isWord){
+      Http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          let response = JSON.parse(Http.responseText);
+          let inList = false;
+          for (let i = 0; i < state.savedWords.length; i++){
+            if(state.savedWords[i].word == word){
+              inList = true;
+            }
+          }
+          if (response.isWord && !inList) {
             state.score += length;
+          }
+          if(!inList){
+            state.savedWords.push({ word: word, correct: response.isWord })
           }
         }
       }
       state.lastSelected = -1;
       state.word = "";
-      state.dieSelected = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+      state.selectedDice = [];
     },
     ResetWord(state) {
       state.lastSelected = -1;
@@ -70,16 +88,6 @@ export default new Vuex.Store({
     ChangeLastSelected(state, dieNumber) {
       state.lastSelected = dieNumber;
     },
-    DieSelectedTrue(state, dieNumber) {
-      state.dieSelected[dieNumber] = true;
-    },
-    DieSelectedFalse(state, dieNumber) {
-      state.dieSelected[dieNumber] = false;
-    },
-    ChangeDieSelected(state, dieNumber) {
-      state.dieSelected[dieNumber] = !state.dieSelected[dieNumber];
-      console.log(state.dieSelected);
-    }
   },
   actions: {
 
@@ -100,11 +108,14 @@ export default new Vuex.Store({
     getScore: state => {
       return state.score;
     },
-    getDieSelected: state => {
-      return state.dieSelected;
-    },
     IsSelected: state => (dieNumber) => {
-      return state.dieSelected[dieNumber]
-    }
+      return state.selectedDice.includes(dieNumber);
+    },
+    IsLastSelected: state => (dieNumber) => {
+      return state.selectedDice[state.selectedDice.length - 1] == dieNumber;
+    },
+    getSavedWords: state => {
+      return state.savedWords;
+    },
   }
 })
