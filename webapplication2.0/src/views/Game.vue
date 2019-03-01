@@ -3,7 +3,7 @@
     <div class="game">
       <div class="field">
         <Board></Board>
-        <div 
+        <div
           @click="this.submit" 
           class="submit" 
           :style="{ 

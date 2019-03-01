@@ -77,7 +77,7 @@ export default new Vuex.Store({
       let length = state.word.length;
       let word = state.word.toLowerCase();
       const Http = new XMLHttpRequest();
-      Http.open('GET', "http://217.120.19.8:3000/" + word, true);
+      Http.open('GET', "http://localhost:3000/" + word, true);
       Http.send();
       Http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -92,7 +92,7 @@ export default new Vuex.Store({
             state.score += state.wordScores[length];
           }
           if(!inList && length > 3){
-            state.savedWords.push({ word: word, correct: response.isWord });
+            state.savedWords.unshift({ word: word, correct: response.isWord });
           }
         }
       }

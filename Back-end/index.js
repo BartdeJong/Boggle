@@ -9,7 +9,7 @@ app.use(function (req, res, next) {
 
 var fs = require("fs");
 var text = fs.readFileSync("./dictionaries/nederlands3.txt").toString('utf-8');
-var dutchDictionary = text.split("\n")
+var dutchDictionary = text.split("\r\n");
 
 app.get('/', (req, res) => {
   res.send({ isWord: true });
@@ -17,12 +17,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/:word', (req, res) => {
-  if(dutchDictionary.includes(req.params.word) && req.params.word.length > 3){
-    res.send({ isWord: true });
-  }
-  else{
-    res.send({ isWord: false });
-  }
+  res.send({isWord: (dutchDictionary.includes(req.params.word) && req.params.word.length > 3)});
 });
 
 const port = process.env.PORT || 3000;
