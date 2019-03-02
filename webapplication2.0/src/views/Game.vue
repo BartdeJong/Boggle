@@ -2,6 +2,7 @@
   <fullscreen :fullscreen.sync="fullscreen">
     <div class="game">
       <div class="field">
+        <Timer @timer-start:log="timerStarted" @timer-stop:log="timerStopped"></Timer>
         <Board></Board>
         <div
           @click="this.submit" 
@@ -135,6 +136,7 @@
 import { mapGetters, mapMutations } from "vuex";
 import Die from "@/components/Die.vue";
 import Board from "@/components/Board.vue";
+import Timer from "@/components/Timer.vue";
 import fullscreen from "vue-fullscreen";
 import Vue from "vue";
 Vue.use(fullscreen);
@@ -160,7 +162,8 @@ export default {
   },
   components: {
     Die,
-    Board
+    Board,
+    Timer,
   },
   methods: {
     submit() {
@@ -171,7 +174,13 @@ export default {
     },
     toggle() {
       this.fullscreen = !this.fullscreen;
-    }
-  }
+    },
+    timerStarted() {
+      console.log("Timer started");
+    },
+    timerStopped() {
+      console.log("Timer stopped");
+    },
+  },
 };
 </script>

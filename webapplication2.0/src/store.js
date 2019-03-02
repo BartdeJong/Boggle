@@ -48,6 +48,7 @@ export default new Vuex.Store({
       ["D", "E", "I", "L", "R", "X"]
     ],
     wordScores: [0, 0, 0, 1, 1, 2, 3, 4, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11],
+    gameTime: 180000,
   },
   mutations: {
     AddLetter(state, letter) {
@@ -138,6 +139,9 @@ export default new Vuex.Store({
     },
     getLetterDistributionLittle: state => {
       return state.letterDistributionLittle;
+    },
+    getGameTime: state => {
+      return state.gameTime;
     },
   }
 })
