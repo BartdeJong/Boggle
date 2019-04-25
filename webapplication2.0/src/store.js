@@ -78,7 +78,7 @@ export default new Vuex.Store({
       let length = state.word.length;
       let word = state.word.toLowerCase();
       const Http = new XMLHttpRequest();
-      Http.open('GET', "http://localhost:3000/" + word, true);
+      Http.open('GET', "http://192.168.178.51:3000/" + word, true);
       Http.send();
       Http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {

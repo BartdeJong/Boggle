@@ -1,8 +1,14 @@
 <template>
-  <div class="Timer">{{this.timer}}</div>
+  <div class="Timer clock">{{this.timer}}</div>
 </template>
 
 <style lang="scss">
+.clock {
+    color: black;
+    font-size: 45px;
+    font-family: Orbitron;
+    letter-spacing: 7px;
+}
 </style>
 
 <script>
@@ -12,26 +18,35 @@ export default {
   name: "Timer",
   data() {
     return {
-      startTime: '',
       timer: 0,
+      alerted: false,
     };
   },
   computed: {
     ...mapGetters(["getGameTime"]),
-    // time() {
-    //     return Date.now();// - this.startTime;
-    // },
   },
   methods: {
-      time() {
-          this.timer = Date.now();
-      },
+    secondPasses() {
+      this.timer = this.timer - 1;
+      if(this.timer < 0){
+        this.timer = 0;
+        if(!this.alerted){
+          window.alert("Your score is " + this.$store.getters.getScore + "\nPlease press OK to restart");
+          this.alerted = true;
+        }
+        location.reload();
+      }
+    },
+  },
+  mounted: function () {
+        this.$nextTick(function () {
+            window.setInterval(() => {
+                this.secondPasses();
+            },1000);
+        })
   },
   created() {
-      this.startTime = Date.now();
-  },
-  mounted() {
-      this.time();
+    this.timer = prompt("For how long do you want to play:", "180");
   },
 };
 </script>

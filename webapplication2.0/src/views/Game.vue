@@ -2,7 +2,7 @@
   <fullscreen :fullscreen.sync="fullscreen">
     <div class="game">
       <div class="field">
-        <Timer @timer-start:log="timerStarted" @timer-stop:log="timerStopped"></Timer>
+        <Timer></Timer>
         <Board></Board>
         <div
           @click="this.submit" 
