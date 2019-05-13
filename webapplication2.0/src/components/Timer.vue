@@ -1,5 +1,5 @@
 <template>
-  <div class="Timer clock">{{this.timer}}</div>
+  <div class="Timer clock">{{this.time}}</div>
 </template>
 
 <style lang="scss">
@@ -18,7 +18,7 @@ export default {
   name: "Timer",
   data() {
     return {
-      timer: 0,
+      timer: "",
       alerted: false,
     };
   },
@@ -48,5 +48,15 @@ export default {
   created() {
     this.timer = prompt("For how long do you want to play:", "180");
   },
+  computed:{
+	  time(){
+		  	var minutes = Math.floor(this.timer / 60);
+			var seconds = this.timer - minutes * 60;
+
+			if (minutes < 10) { minutes = "0" + minutes; }
+			if (seconds < 10) { seconds = "0" + seconds; }
+			return minutes + ':' + seconds;
+	  }
+  }
 };
 </script>

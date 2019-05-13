@@ -9,7 +9,7 @@ app.use(function (req, res, next) {
 
 var fs = require("fs");
 var text = fs.readFileSync("./dictionaries/nederlands3.txt").toString('utf-8');
-var dutchDictionary = text.split("\n");
+var dutchDictionary = text.split("\r\n");
 
 app.get('/', (req, res) => {
   res.send({ isWord: true });
